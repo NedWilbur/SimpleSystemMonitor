@@ -6,15 +6,15 @@ const router = express.Router();
 function GetData() {
     let systemData = {};
 
-    systemData.HostName = os.hostname();
-    systemData.Uptime = os.uptime();
-    systemData.Arch = os.arch();
-    systemData.Cpus = os.cpus();
-    systemData.Platform = os.platform();
-    systemData.FreeMemory = os.freemem();
-    systemData.TotalMemory = os.totalmem();
-    systemData.Version = os.version();
-    systemData.Networks = os.networkInterfaces();
+    systemData.hostname = os.hostname();
+    systemData.uptime = os.uptime();
+    systemData.arch = os.arch();
+    systemData.cpus = os.cpus();
+    systemData.platform = os.platform();
+    systemData.freemem = os.freemem();
+    systemData.totalmem = os.totalmem();
+    systemData.osVersion = os.version();
+    systemData.networkInterfaces = os.networkInterfaces();
 
     return systemData;
 }

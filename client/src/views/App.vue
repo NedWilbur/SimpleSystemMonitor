@@ -1,13 +1,21 @@
 <template>
   <div>
-    <MetricItem v-bind:uptime="uptime" />
-    <Memory v-bind:memory="memory" />
+    <SingleMetricItem :name="'Hostname'" :value="data.hostname" />
+    <SingleMetricItem :name="'OS'" :value="data.osVersion" />
+    <SingleMetricItem :name="'Platform'" :value="data.platform" />
+    <SingleMetricItem :name="'Arch'" :value="data.arch" />
+    <SingleMetricItem :name="'Uptime'" :value="data.uptime" />
+    <SingleMetricItem :name="'networkInterfaces'" :value="data.networkInterfaces" />
+
+    <Memory :data="data" />
+    <Cpus :data="data" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import MetricItem from "@/components/MetricItem.vue";
+import SingleMetricItem from "@/components/SingleMetricItem.vue";
+import Cpus from "@/components/Cpus.vue";
 import Memory from "@/components/Memory.vue";
 
 const BASE_URL = "http://localhost:5000/api";
@@ -16,14 +24,14 @@ const TICK_RATE = 1000;
 export default {
   name: "Home",
   components: {
-    MetricItem,
+    SingleMetricItem,
+    Cpus,
     Memory
   },
   data() {
     return {
       timer: null,
-      uptime: 0,
-      memory: { used: 0, total: 0 }
+      data: {}
     };
   },
   created() {
@@ -41,18 +49,9 @@ export default {
     },
     fetch() {
       // memory
-      fetch(`${BASE_URL}/sys/uptime`)
+      fetch(`${BASE_URL}/sys/`)
         .then(res => res.json())
-        .then(data => (this.uptime = data.hours))
-        .catch(err => console.log(err));
-
-      // memory
-      fetch(`${BASE_URL}/sys/memory`)
-        .then(res => res.json())
-        .then(data => {
-          this.memory.used = (data.usedMem / 1000000000).toFixed(1);
-          this.memory.total = (data.totalMem / 1000000000).toFixed(1);
-        })
+        .then(data => (this.data = data))
         .catch(err => console.log(err));
     }
   }
