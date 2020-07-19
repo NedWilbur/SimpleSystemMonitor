@@ -23,6 +23,9 @@ pnpm-debug.log*
 *.sw?
 
 ### Server files ###
+# built client files
+/server/public
+
 # Logs
 logs
 *.log

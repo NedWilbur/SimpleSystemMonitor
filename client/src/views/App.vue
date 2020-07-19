@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <MetricItem v-bind:uptime="uptime" />
     <Memory v-bind:memory="memory" />
   </div>
