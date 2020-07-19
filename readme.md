@@ -1,11 +1,15 @@
-# Simple Server Monitor (client)
+# Simple Server Monitor
+
+## Server
 
 Run: `npm run dev`
 
-## API
+### API
 
 Base URL: `localhost:5000/api`
 
-### GET
-
 `/uptime`
+
+## Client
+
+Run: `cd client` + `yarn serve`
