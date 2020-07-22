@@ -1,9 +1,12 @@
 <template>
   <div>
-    <div class="header nes-container is-rounded">NEDFLIX System Information</div>
+    <div class="header nes-container is-rounded">{{ hostname }} System Information</div>
     <div class="content">
-      <ItemContainer :title="'CPU'">
+      <!-- <ItemContainer :title="'CPU (TODO)'">
         <CPU :cpu="50"></CPU>
+      </ItemContainer>-->
+      <ItemContainer :title="'MEM'">
+        <MEM :mem="mem"></MEM>
       </ItemContainer>
     </div>
   </div>
@@ -11,44 +14,68 @@
 
 <script>
 import ItemContainer from "@/components/ItemContainer.vue";
-import CPU from "@/components/CPU.vue";
+// import CPU from "@/components/CPU.vue";
+import MEM from "@/components/MEM.vue";
 
-// const BASE_URL = "http://localhost:5000/api";
-// const TICK_RATE = 1000;
+const BASE_URL = "http://localhost:5000/api";
+const TICK_RATE = 5000;
 
 export default {
   name: "Home",
   components: {
     ItemContainer,
-    CPU,
+    // CPU,
+    MEM,
   },
-  // data() {
-  //   return {
-  //     timer: null,
-  //     data: {},
-  //   };
-  // },
-  // created() {
-  //   // start loop
-  //   this.startInterval();
-  // },
-  // beforeDestroy() {
-  //   // dispose of timer
-  //   clearInterval(this.timer);
-  // },
-  // methods: {
-  //   startInterval: function () {
-  //     console.log("Starting fetch ticker");
-  //     this.timer = setInterval(this.fetch, TICK_RATE);
-  //   },
-  //   fetch() {
-  //     // memory
-  //     fetch(`${BASE_URL}/sys/`)
-  //       .then((res) => res.json())
-  //       .then((data) => (this.data = data))
-  //       .catch((err) => console.log(err));
-  //   },
-  // },
+  data() {
+    return {
+      timer: null,
+      mem: {},
+      disklayout: {},
+      hostname: "",
+    };
+  },
+  created() {
+    this.ticker(); // get initial data
+    this.startInterval(); // loop for dynamic data
+    this.fetchStatic(); // get static data
+  },
+  beforeDestroy() {
+    clearInterval(this.timer); // dispose of timer
+  },
+  methods: {
+    startInterval() {
+      console.log("Starting ticker for dynamic values");
+      this.timer = setInterval(this.ticker, TICK_RATE);
+    },
+    ticker() {
+      // this.fetch("mem", this.mem);
+
+      // fetch mem
+      fetch(`${BASE_URL}/sys/mem`)
+        .then((res) => res.json())
+        .then((data) => (this.mem = data))
+        .catch((err) => console.log(err));
+    },
+    fetchStatic() {
+      fetch(`${BASE_URL}/sys/hostname`)
+        .then((res) => res.json())
+        .then((data) => (this.hostname = data))
+        .catch((err) => console.log(err));
+
+      fetch(`${BASE_URL}/sys/disklayout`)
+        .then((res) => res.json())
+        .then((data) => (this.disklayout = data))
+        .catch((err) => console.log(err));
+    },
+    // fetch(url, obj) {
+    //   console.log(`GET: ${BASE_URL}/sys/${url}`);
+    //   fetch(`${BASE_URL}/sys/${url}`)
+    //     .then((res) => res.json())
+    //     .then((data) => (obj = data))
+    //     .catch((err) => console.log(err));
+    // },
+  },
 };
 </script>
 
