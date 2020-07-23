@@ -43,8 +43,8 @@ router.get('/dynamicfast', async (req, res) => {
     });
 });
 
-router.get('/disklayout', async (req, res) => {
-    si.diskLayout()
+router.get('/diskinfo', async (req, res) => {
+    si.fsSize()
         .then(data => res.json(data))
         .catch(error => console.error(error));
 });

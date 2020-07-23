@@ -8,6 +8,9 @@
       <ItemContainer :title="'MEM'">
         <MEM :mem="mem"></MEM>
       </ItemContainer>
+      <ItemContainer :title="'DISK'">
+        <DISK :diskinfo="diskinfo"></DISK>
+      </ItemContainer>
     </div>
   </div>
 </template>
@@ -16,6 +19,7 @@
 import ItemContainer from "@/components/ItemContainer.vue";
 // import CPU from "@/components/CPU.vue";
 import MEM from "@/components/MEM.vue";
+import DISK from "@/components/DISK.vue";
 
 const BASE_URL = "http://localhost:5000/api";
 const TICK_RATE = 5000;
@@ -26,12 +30,13 @@ export default {
     ItemContainer,
     // CPU,
     MEM,
+    DISK,
   },
   data() {
     return {
       timer: null,
       mem: {},
-      disklayout: {},
+      diskinfo: {},
       hostname: "",
     };
   },
@@ -63,9 +68,9 @@ export default {
         .then((data) => (this.hostname = data))
         .catch((err) => console.log(err));
 
-      fetch(`${BASE_URL}/sys/disklayout`)
+      fetch(`${BASE_URL}/sys/diskinfo`)
         .then((res) => res.json())
-        .then((data) => (this.disklayout = data))
+        .then((data) => (this.diskinfo = data))
         .catch((err) => console.log(err));
     },
     // fetch(url, obj) {
