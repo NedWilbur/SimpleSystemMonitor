@@ -11,6 +11,9 @@
       <ItemContainer :title="'DISK'">
         <DISK :diskinfo="diskinfo"></DISK>
       </ItemContainer>
+      <ItemContainer :title="'MISC'">
+        <MISC :uptime="uptime"></MISC>
+      </ItemContainer>
     </div>
   </div>
 </template>
@@ -20,6 +23,7 @@ import ItemContainer from "@/components/ItemContainer.vue";
 import CPU from "@/components/CPU.vue";
 import MEM from "@/components/MEM.vue";
 import DISK from "@/components/DISK.vue";
+import MISC from "@/components/MISC.vue";
 
 const BASE_URL = "http://localhost:5000/api";
 const TICK_RATE = 1000;
@@ -31,6 +35,7 @@ export default {
     CPU,
     MEM,
     DISK,
+    MISC,
   },
   data() {
     return {
@@ -39,6 +44,7 @@ export default {
       mem: {},
       diskinfo: {},
       hostname: "",
+      uptime: "",
     };
   },
   created() {
@@ -65,6 +71,12 @@ export default {
       fetch(`${BASE_URL}/sys/mem`)
         .then((res) => res.json())
         .then((data) => (this.mem = data))
+        .catch((err) => console.log(err));
+
+      // uptime
+      fetch(`${BASE_URL}/sys/uptime`)
+        .then((res) => res.json())
+        .then((data) => (this.uptime = data))
         .catch((err) => console.log(err));
     },
     fetchStatic() {

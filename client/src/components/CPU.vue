@@ -11,6 +11,8 @@ export default {
   props: ["cpu"],
   computed: {
     formattedCPUUsage() {
+      if (typeof this.cpu === "undefined") return;
+
       return (this.cpu * 100).toFixed(0);
     },
   },
