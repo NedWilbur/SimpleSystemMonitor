@@ -10,6 +10,10 @@ router.get('/hostname', async (req, res) => {
     res.json(os.hostname());
 });
 
+router.get('/uptime', async (req, res) => {
+    res.json(os.uptime());
+});
+
 // SYSTEMINFORMATION (https://www.npmjs.com/package/systeminformation)
 router.get('/all', (req, res) => {
     si.getAllData()
@@ -23,28 +27,20 @@ router.get('/dynamic', (req, res) => {
         .catch(error => console.error(error));
 });
 
-router.get('/cpus', (req, res) => {
-    res.json(os.cpus())
-});
-
 router.get('/mem', (req, res) => {
     si.mem()
         .then(data => res.json(data))
         .catch(error => console.error(error));
 });
 
-router.get('/dynamicfast', async (req, res) => {
-    res.json({
-        "mem": await si.mem().catch(err => console.error(err)),
-        "cpu": await si.currentLoad().catch(err => console.error(err)),
-        // "processes": await si.processes().catch(err => console.error(err)), // Slow...
-        // "services": await si.services().catch(err => console.error(err)), // Slow...
-        "io": await si.diskLayout().catch(err => console.error(err)),
-    });
-});
-
 router.get('/diskinfo', async (req, res) => {
     si.fsSize()
+        .then(data => res.json(data))
+        .catch(error => console.error(error));
+});
+
+router.get('/os', async (req, res) => {
+    si.osInfo()
         .then(data => res.json(data))
         .catch(error => console.error(error));
 });
