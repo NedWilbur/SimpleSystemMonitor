@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{mem.percentUsed}}% ({{mem.used }}gb/{{ mem.total }}gb)
+    {{formattedMem.percentUsed}}% ({{formattedMem.used }}gb/{{ formattedMem.total }}gb)
     <progress
       class="nes-progress is-primary"
       :value="mem.used"
@@ -13,16 +13,18 @@
 export default {
   name: "MEM",
   props: ["mem"],
-  watch: {
-    mem: function () {
+  computed: {
+    formattedMem() {
       if (typeof this.mem === "undefined") return;
-      
-      // convert to GB
-      this.mem.used = (this.mem.used / 1073741824).toFixed(1);
-      this.mem.total = (this.mem.total / 1073741824).toFixed(1);
-      this.mem.percentUsed = ((this.mem.used / this.mem.total) * 100).toFixed(
-        0
-      );
+
+      let formattedMem = this.mem;
+      formattedMem.used = (formattedMem.used / 1073741824).toFixed(1);
+      formattedMem.total = (formattedMem.total / 1073741824).toFixed(1);
+      formattedMem.percentUsed = (
+        (formattedMem.used / formattedMem.total) *
+        100
+      ).toFixed(0);
+      return formattedMem;
     },
   },
 };
