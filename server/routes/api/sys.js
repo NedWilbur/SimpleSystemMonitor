@@ -41,6 +41,12 @@ router.get('/os', async (req, res) => {
         .catch(error => console.error(error));
 });
 
+router.get('/processes', async (req, res) => {
+    si.processes()
+        .then(data => res.json(data))
+        .catch(error => console.error(error));
+});
+
 // OS-UTILS (https://github.com/oscmejia/os-utils)
 router.get('/cpuusage', async (req, res) => {
     osu.cpuUsage(function (usage) {

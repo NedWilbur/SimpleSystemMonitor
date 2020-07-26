@@ -17,6 +17,9 @@
       <ItemContainer :title="'MISC'">
         <MISC :uptime="uptime"></MISC>
       </ItemContainer>
+      <ItemContainer :title="'PROCS'">
+        <PROC :procs="procs"></PROC>
+      </ItemContainer>
     </div>
   </div>
 </template>
@@ -28,6 +31,7 @@ import MEM from "@/components/MEM.vue";
 import DISK from "@/components/DISK.vue";
 import OS from "@/components/OS.vue";
 import MISC from "@/components/MISC.vue";
+import PROC from "@/components/PROC.vue";
 
 const BASE_URL = "http://localhost:5000/api";
 const TICK_RATE = 1000;
@@ -41,6 +45,7 @@ export default {
     DISK,
     OS,
     MISC,
+    PROC,
   },
   data() {
     return {
@@ -51,6 +56,7 @@ export default {
       hostname: "",
       uptime: "",
       os: {},
+      procs: {},
     };
   },
   created() {
@@ -83,6 +89,12 @@ export default {
       fetch(`${BASE_URL}/sys/uptime`)
         .then((res) => res.json())
         .then((data) => (this.uptime = data))
+        .catch((err) => console.log(err));
+
+      // processes
+      fetch(`${BASE_URL}/sys/processes`)
+        .then((res) => res.json())
+        .then((data) => (this.procs = data))
         .catch((err) => console.log(err));
     },
     fetchStatic() {
