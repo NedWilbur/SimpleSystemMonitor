@@ -6,10 +6,6 @@ import osu from 'os-utils';
 const router = express.Router();
 
 // OS (https://nodejs.org/api/os.html)
-router.get('/hostname', async (req, res) => {
-    res.json(os.hostname());
-});
-
 router.get('/uptime', async (req, res) => {
     res.json(os.uptime());
 });

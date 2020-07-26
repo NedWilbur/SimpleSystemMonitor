@@ -11,6 +11,9 @@
       <ItemContainer :title="'DISK'">
         <DISK :diskinfo="diskinfo"></DISK>
       </ItemContainer>
+      <ItemContainer :title="'OS'">
+        <OS :os="os"></OS>
+      </ItemContainer>
       <ItemContainer :title="'MISC'">
         <MISC :uptime="uptime"></MISC>
       </ItemContainer>
@@ -23,6 +26,7 @@ import ItemContainer from "@/components/ItemContainer.vue";
 import CPU from "@/components/CPU.vue";
 import MEM from "@/components/MEM.vue";
 import DISK from "@/components/DISK.vue";
+import OS from "@/components/OS.vue";
 import MISC from "@/components/MISC.vue";
 
 const BASE_URL = "http://localhost:5000/api";
@@ -35,6 +39,7 @@ export default {
     CPU,
     MEM,
     DISK,
+    OS,
     MISC,
   },
   data() {
@@ -45,6 +50,7 @@ export default {
       diskinfo: {},
       hostname: "",
       uptime: "",
+      os: {},
     };
   },
   created() {
@@ -80,16 +86,17 @@ export default {
         .catch((err) => console.log(err));
     },
     fetchStatic() {
-      // hostname
-      fetch(`${BASE_URL}/sys/hostname`)
-        .then((res) => res.json())
-        .then((data) => (this.hostname = data))
-        .catch((err) => console.log(err));
-
       // diskinfo
       fetch(`${BASE_URL}/sys/diskinfo`)
         .then((res) => res.json())
         .then((data) => (this.diskinfo = data))
+        .catch((err) => console.log(err));
+
+      // os (includes hostname)
+      fetch(`${BASE_URL}/sys/os`)
+        .then((res) => res.json())
+        .then((data) => (this.os = data))
+        .then((data) => (this.hostname = data.hostname))
         .catch((err) => console.log(err));
     },
     // fetch(url, obj) {
