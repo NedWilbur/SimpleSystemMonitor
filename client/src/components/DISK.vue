@@ -17,6 +17,8 @@ export default {
   props: ["diskinfo"],
   computed: {
     formattedDiskInfo() {
+      if (typeof this.diskinfo === "undefined") return;
+
       return this.diskinfo
         .map((disk) => ({
           ...disk,
