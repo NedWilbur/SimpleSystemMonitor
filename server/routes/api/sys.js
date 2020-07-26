@@ -1,12 +1,17 @@
 import express from 'express';
-// import os from 'os';
+import os from 'os';
 import si from 'systeminformation';
-import os from 'os-utils';
+import osu from 'os-utils';
 
 const router = express.Router();
 
-// Return ALL
-router.get('/', (req, res) => {
+// OS (https://nodejs.org/api/os.html)
+router.get('/hostname', async (req, res) => {
+    res.json(os.hostname());
+});
+
+// SYSTEMINFORMATION (https://www.npmjs.com/package/systeminformation)
+router.get('/all', (req, res) => {
     si.getAllData()
         .then(data => res.json(data))
         .catch(error => console.error(error));
@@ -44,26 +49,11 @@ router.get('/diskinfo', async (req, res) => {
         .catch(error => console.error(error));
 });
 
-router.get('/hostname', async (req, res) => {
-    res.json(os.hostname());
-});
-
-// OS-UTILS
+// OS-UTILS (https://github.com/oscmejia/os-utils)
 router.get('/cpuusage', async (req, res) => {
-    os.cpuUsage(function (usage) {
+    osu.cpuUsage(function (usage) {
         res.json(usage);
     });
 });
-
-
-
-
-
-
-
-// router.get('/hostname', (req, res) => {
-//     res.json(os.hostname());
-// });
-
 
 export default router;
