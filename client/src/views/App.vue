@@ -2,9 +2,9 @@
   <div>
     <div class="header nes-container is-rounded">{{ hostname }} System Information</div>
     <div class="content">
-      <!-- <ItemContainer :title="'CPU (TODO)'">
-        <CPU :cpu="50"></CPU>
-      </ItemContainer>-->
+      <ItemContainer :title="'CPU'">
+        <CPU :cpu="cpuusage"></CPU>
+      </ItemContainer>
       <ItemContainer :title="'MEM'">
         <MEM :mem="mem"></MEM>
       </ItemContainer>
@@ -17,24 +17,25 @@
 
 <script>
 import ItemContainer from "@/components/ItemContainer.vue";
-// import CPU from "@/components/CPU.vue";
+import CPU from "@/components/CPU.vue";
 import MEM from "@/components/MEM.vue";
 import DISK from "@/components/DISK.vue";
 
 const BASE_URL = "http://localhost:5000/api";
-const TICK_RATE = 5000;
+const TICK_RATE = 1000;
 
 export default {
   name: "Home",
   components: {
     ItemContainer,
-    // CPU,
+    CPU,
     MEM,
     DISK,
   },
   data() {
     return {
       timer: null,
+      cpuusage: "",
       mem: {},
       diskinfo: {},
       hostname: "",
@@ -54,20 +55,26 @@ export default {
       this.timer = setInterval(this.ticker, TICK_RATE);
     },
     ticker() {
-      // this.fetch("mem", this.mem);
+      // cpu usage
+      fetch(`${BASE_URL}/sys/cpuusage`)
+        .then((res) => res.json())
+        .then((data) => (this.cpuusage = data))
+        .catch((err) => console.log(err));
 
-      // fetch mem
+      // mem
       fetch(`${BASE_URL}/sys/mem`)
         .then((res) => res.json())
         .then((data) => (this.mem = data))
         .catch((err) => console.log(err));
     },
     fetchStatic() {
+      // hostname
       fetch(`${BASE_URL}/sys/hostname`)
         .then((res) => res.json())
         .then((data) => (this.hostname = data))
         .catch((err) => console.log(err));
 
+      // diskinfo
       fetch(`${BASE_URL}/sys/diskinfo`)
         .then((res) => res.json())
         .then((data) => (this.diskinfo = data))

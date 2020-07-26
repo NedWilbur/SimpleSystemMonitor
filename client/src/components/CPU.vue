@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p>CPU: {{ cpu }}%</p>
-    <progress class="nes-progress is-primary" :value="cpu" max="100"></progress>
+    <p>CPU: {{ formattedCPUUsage }}%</p>
+    <progress class="nes-progress is-primary" :value="formattedCPUUsage" max="100"></progress>
   </div>
 </template>
 
@@ -9,6 +9,11 @@
 export default {
   name: "CPU",
   props: ["cpu"],
+  computed: {
+    formattedCPUUsage() {
+      return (this.cpu * 100).toFixed(0);
+    },
+  },
 };
 </script>
 
