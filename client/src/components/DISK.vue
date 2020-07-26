@@ -4,8 +4,8 @@
       {{ disk.fs }} {{ disk.used }}gb/{{ disk.size }}gb
       <progress
         class="nes-progress is-primary"
-        :value="disk.use"
-        max="100"
+        :value="disk.used"
+        :max="disk.size"
       ></progress>
     </div>
   </div>
@@ -19,7 +19,8 @@ export default {
     formattedDiskInfo() {
       if (typeof this.diskinfo === "undefined") return;
 
-      return this.diskinfo
+      let data = Array.from(this.diskinfo); // convert to array
+      return data // formats and removes < 0 gb drives
         .map((disk) => ({
           ...disk,
           used: (disk.used / 1073741824).toFixed(0),
