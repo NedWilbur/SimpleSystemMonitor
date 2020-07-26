@@ -12,11 +12,11 @@
         <DISK :diskinfo="diskinfo"></DISK>
       </ItemContainer>
       <ItemContainer :title="'OS'">
-        <OS :os="os"></OS>
+        <OS :os="os" :uptime="uptime"></OS>
       </ItemContainer>
-      <ItemContainer :title="'MISC'">
+      <!-- <ItemContainer :title="'MISC'">
         <MISC :uptime="uptime"></MISC>
-      </ItemContainer>
+      </ItemContainer>-->
       <ItemContainer :title="'PROCS'">
         <PROC :procs="procs"></PROC>
       </ItemContainer>
@@ -30,7 +30,7 @@ import CPU from "@/components/CPU.vue";
 import MEM from "@/components/MEM.vue";
 import DISK from "@/components/DISK.vue";
 import OS from "@/components/OS.vue";
-import MISC from "@/components/MISC.vue";
+// import MISC from "@/components/MISC.vue";
 import PROC from "@/components/PROC.vue";
 
 const BASE_URL = "http://localhost:5000/api";
@@ -44,7 +44,7 @@ export default {
     MEM,
     DISK,
     OS,
-    MISC,
+    // MISC,
     PROC,
   },
   data() {

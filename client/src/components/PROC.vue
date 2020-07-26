@@ -26,6 +26,7 @@ export default {
   name: "PROC",
   props: ["procs"],
   computed: {
+    // TODO: Add sort methods
     sortByName() {
       if (typeof this.procs === "undefined") return;
 
